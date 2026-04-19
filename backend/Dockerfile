@@ -19,8 +19,12 @@ RUN npm run build
 # Create uploads directory
 RUN mkdir -p uploads
 
+# Copy startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
 # Expose port
 EXPOSE 3001
 
-# Push schema to database and start server
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node dist/app.js"]
+# Run startup script
+CMD ["/app/start.sh"]
