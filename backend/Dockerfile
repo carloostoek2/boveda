@@ -22,5 +22,5 @@ RUN mkdir -p uploads
 # Expose port
 EXPOSE 3001
 
-# Start
-CMD ["npm", "run", "start"]
+# Run migrations and start server
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/app.js"]
