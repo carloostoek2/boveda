@@ -22,5 +22,5 @@ RUN mkdir -p uploads
 # Expose port
 EXPOSE 3001
 
-# Run migrations and start server
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/app.js"]
+# Push schema to database and start server
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node dist/app.js"]
