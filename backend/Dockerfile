@@ -2,20 +2,22 @@ FROM node:20
 
 WORKDIR /app
 
-# Install all dependencies (including devDependencies for build)
+# Force Prisma to download linux-glibc binaries instead of linux-musl
+ENV PRISMA_CLIENT_ENGINE_TYPE="library"
+ENV PRISMA_CLI_BINARY_TARGETS="linux-arm64-openssl-3.0.x,linux-arm64-openssl-1.1.x,linux-glibc"
+
+# Install all dependencies
 COPY package*.json ./
 RUN npm ci
 
 # Copy prisma schema
 COPY prisma ./prisma/
 
-# Generate Prisma client
-RUN npx prisma generate
-
 # Copy app
 COPY . .
 
 # Build TypeScript
+RUN npx prisma generate
 RUN npm run build
 
 # Create uploads directory
